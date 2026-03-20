@@ -1,14 +1,22 @@
 import Image from "next/image";
 import Navbar from "./components/Navbar";
+import db from '@/utils/db/db'
 
-export default function Home() {
+export async function allMeals () {
+  const result = await db.query(
+    `SELECT * FROM meals`);
+    return result.rows;
+}
+import { getMeals } from "@/utils/queries";
+
+export default async function Home() {
+  const meals = await getMeals();
+
   return (
     <div>
-      <main>
-        <div className="w-screen h-30 bg-mauve-300">
-          <h1> Party Pantry </h1>
-          </div>
-      </main>
+      {meals.map(meal => (
+        <div key={meal.id}>{meal.name}</div>
+      ))}
     </div>
   );
 }
