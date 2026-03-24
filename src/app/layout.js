@@ -5,7 +5,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en">
-      <body className="flex flex-row">
+      <body className="flex flex-row min-h-screen">
         <Navbar />
         {children}
       </body>
