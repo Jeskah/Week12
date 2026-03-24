@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export default function Navbar() {
     return (
-        <nav className="flex flex-col bg-amber-500 text-center items-center pt-50 align-center h-max-screen">
+        <nav className="flex flex-col bg-amber-500 text-center items-center pt-50 align-center h-max-screen relative">
 
             <div className="flex flex-col gap-5 uppercase w-50">
                 <Link href='/profile'>profile</Link>

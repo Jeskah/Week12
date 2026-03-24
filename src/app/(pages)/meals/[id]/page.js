@@ -32,14 +32,14 @@ return (
     <h1>{meal.name}</h1>
     <p>{meal.description}</p>
 <ul>
-  {meal.tags?.map((tag, i) => (
-    <li key={i}>{tag}</li>
-  ))}
+    {meal.tags?.map((tag, i) => (
+        <li key={i}>{tag}</li>
+    ))}
 </ul>
 
-    {meal.img_url && (
+    {meal.image_url && (
     <Image
-        src={meal.img_url}
+        src={meal.image_url}
         alt={meal.description}
         width={300}
         height={300}

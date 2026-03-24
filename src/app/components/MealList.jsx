@@ -3,32 +3,34 @@ import Link from 'next/link';
 
 export default function MealsList({ meals }) {
 return (
-
-<div className='flex flex-row flex-wrap justify-center gap-10 pt-10'>
+<div className="flex flex-wrap justify-center gap-8 p-10">
     {meals.map((meal) => (
     <Link key={meal.id} href={`/meals/${meal.id}`}>
-        <div className='flex flex-col gap-5 flex-wrap'>
-        <h2>{meal.name}</h2>
-        {meal.image_url ? (
+        
+        <div className="w-62.5 bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+
+        {/* Image */}
+        <div className="w-full h-45 relative">
             <Image
             src={meal.image_url}
             alt={meal.description}
-            width={500}
-            height={100}
-            unoptimized
-            className='object-cover w-50 h-50'
+            fill
+            className="object-cover"
             />
-            
-            
-        ) : (
-            <div style={{ width: 200, height: 200, background: '#eee' }}>
-            No image
-            </div>
-        )}
-        <p>{meal.description}</p>
-        <ul>{meal.ingredients}</ul>
-        <p>{meal.prep}</p>
         </div>
+
+<div className="p-4 flex flex-col gap-2">
+
+    <h2 className="font-semibold text-lg h-12 overflow-hidden">
+        {meal.name}
+    </h2>
+    <p className="text-sm text-gray-600 h-12 overflow-hidden">
+        {meal.description}
+    </p>
+</div>
+
+        </div>
+
     </Link>
     ))}
 </div>
