@@ -4,3 +4,34 @@ export async function getMeals() {
   const result = await pool.query("SELECT * FROM meals");
   return result.rows;
 }
+
+export async function getIngredients() {
+  const result = await pool.query(
+    "SELECT * FROM ingredients ORDER BY type, name",
+  );
+  return result.rows;
+}
+
+export async function getMatchingMeals(ingredientIds) {
+  const result = await pool.query(
+    `SELECT 
+      m.id,
+      m.name,
+      m.description,
+      m.difficulty,
+      COUNT(mi.ingredient_id) AS total_ingredients,
+      COUNT(mi.ingredient_id) FILTER (
+        WHERE mi.ingredient_id = ANY($1::int[])
+      ) AS matched_ingredients
+    FROM meals m
+    JOIN meal_ingredients mi ON m.id = mi.meal_id
+    WHERE m.is_public = true
+    GROUP BY m.id
+    HAVING COUNT(mi.ingredient_id) FILTER (
+      WHERE mi.ingredient_id = ANY($1::int[])
+    ) > 0
+    ORDER BY matched_ingredients DESC`,
+    [ingredientIds],
+  );
+  return result.rows;
+}
