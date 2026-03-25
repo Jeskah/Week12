@@ -1,4 +1,5 @@
 import "./globals.css";
+import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import Navbar from "./components/Navbar";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 
@@ -42,11 +43,13 @@ export default function RootLayout({ children }) {
     <html
       lang="en">
       <body className="flex flex-row min-h-screen">
+        <ClerkProvider>
         <Navbar />
         <div className="w-full flex flex-col flex-start flex-wrap">
         <Header/>
         {children}
         </div>
+        </ClerkProvider>
       </body>
     </html>
     
