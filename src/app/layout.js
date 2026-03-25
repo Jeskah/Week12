@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import Header from "./components/Header";
 
 export default function RootLayout({ children }) {
   return (
@@ -28,27 +29,18 @@ export default function RootLayout({ children }) {
           </header>
 
           <div className="flex">
-            <Navbar />
+          <Navbar />
 
-          <main className="flex-1 bg-black min-h-screen text-white">
-          {children}
+          <div className="flex-1 flex flex-col">
+          <Header />
+
+          <main className="bg-black min-h-screen text-white">
+            {children}
           </main>
         </div>
+      </div>
       </ClerkProvider>
-import Header from "./components/Header";
-
-export default function RootLayout({ children }) {
-  return (
-    <html
-      lang="en">
-      <body className="flex flex-row min-h-screen">
-        <Navbar />
-        <div className="w-full flex flex-col flex-start flex-wrap">
-        <Header/>
-        {children}
-        </div>
-      </body>
-    </html>
-    
+    </body>
+  </html>
   );
 }

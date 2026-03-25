@@ -20,7 +20,7 @@ export default async function SavedPage () {
         
             {saves.length === 0 ? (
               <div className="border border-zinc-800 rounded-xl p-6 bg-zinc-950">
-        <p className="text-zinc-300">No saved recipes. Add your ingredients to browse the recipes</p>
+        <p className="text-zinc-300">No saved recipes. Add your ingredients to browse the meals</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
