@@ -1,51 +1,121 @@
-import db from '@/utils/db/db';
-import Image from 'next/image';
+import pool from "@/utils/db/db";
+import Link from "next/link";
+import Image from "next/image";
 
-export async function getMealById(id) {
-    const result = await db.query(
-        `SELECT 
-        meals.*,
-        ARRAY_AGG(tags.tag_name) AS tags
-        FROM meals
-        LEFT JOIN meal_tags ON meals.id = meal_tags.meal_id
-        LEFT JOIN tags ON meal_tags.tag_id = tags.id
-        WHERE meals.id = $1
-        GROUP BY meals.id`,
-        [id]);
+export default async function MealDetail({ params }) {
+    const { id } = await params;
+    const mealId = parseInt(id);
 
-    return result.rows[0];
-    }
+    let meal = null;
 
-export default async function MealPage({ params }) {
-const { id } = await params;
+    try {
+    const result = await pool.query(
+    `
+    SELECT 
+    m.id,
+    m.name,
+    m.description,
+    m.difficulty,
+    m.image_url,
+    COALESCE(
+    ARRAY_REMOVE(ARRAY_AGG(i.name), NULL),
+    '{}'
+    ) AS ingredients
+    FROM meals m
+    LEFT JOIN meal_ingredients mi ON m.id = mi.meal_id
+    LEFT JOIN ingredients i ON i.id = mi.ingredient_id
+    WHERE m.id = $1
+    GROUP BY m.id, m.name, m.description, m.difficulty, m.image_url
+    `,
+    [mealId]
+    );
 
-const meal = await getMealById(id);
-
-if (!meal) {
-return <div>Meal not found</div>;
+    meal = result.rows[0];
+    } catch (err) {
+    console.error(err);
 }
 
-//at this part we can limit user access
+    if (!meal) {
+    return <p style={{ color: "white", padding: "30px" }}>Meal not found</p>;
+}
 
-return (
-<div>
-    <h1>{meal.name}</h1>
-    <p>{meal.description}</p>
-<ul>
-    {meal.tags?.map((tag, i) => (
-        <li key={i}>{tag}</li>
+    return (
+    <div style={{ display: "flex" }}>
+    <div
+    style={{
+    flex: 1,
+    padding: "30px",
+    maxWidth: "900px",
+    margin: "0 auto",
+    color: "white"
+    }}
+>
+
+    <Link href="/meals">
+    <p style={{ marginBottom: "20px", color: "#aaa", cursor: "pointer" }}>
+    ← Back to meals
+    </p>
+    </Link>
+
+<Image
+    src={meal.image_url}
+    alt={meal.name}
+    width={300}
+    height={150}
+    style={{
+    width: "100%",
+    height: "150px",
+    objectFit: "cover",
+}}
+/>
+
+<div
+    style={{
+    background: "#111",
+    padding: "25px",
+    borderRadius: "16px",
+    border: "1px solid #222",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.4)"
+}}
+>
+
+    <h1 style={{ marginBottom: "10px", fontSize: "28px" }}>
+    {meal.name}
+    </h1>
+
+    <p style={{ color: "#aaa", marginBottom: "15px" }}>
+    {meal.description}
+    </p>
+
+    <p style={{ marginBottom: "20px", color: "#888" }}>
+    Difficulty: {meal.difficulty}
+    </p>
+
+    <h2 style={{ marginBottom: "10px" }}>Ingredients</h2>
+
+    {meal.ingredients && meal.ingredients.length > 0 ? (
+    <ul style={{ listStyle: "none", padding: 0 }}>
+    {meal.ingredients.map((ingredient, index) => (
+    <li
+    key={index}
+    style={{
+    padding: "10px",
+    marginBottom: "8px",
+    background: "#1a1a1a",
+    borderRadius: "8px",
+    border: "1px solid #333"
+}}
+>
+    {ingredient}
+    </li>
     ))}
-</ul>
+    </ul>
+    ) : (
+    <p style={{ color: "#888" }}>No ingredients listed</p>
+)}
 
-    {meal.image_url && (
-    <Image
-        src={meal.image_url}
-        alt={meal.description}
-        width={300}
-        height={300}
-        unoptimized
-    />
-    )}
+</div>
+</div>
 </div>
 );
 }
