@@ -27,11 +27,16 @@ export default function RootLayout({ children }) {
             </Show>
           </header>
 
-          {children}
-        </ClerkProvider>
+          <div className="flex">
+            <Navbar />
 
-        <Navbar />
+          <main className="flex-1 bg-black min-h-screen text-white">
+          {children}
+          </main>
+        </div>
+      </ClerkProvider>
       </body>
     </html>
+    
   );
 }
