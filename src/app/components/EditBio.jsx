@@ -44,21 +44,21 @@ const deleteBio = async () => {
 };
 
 return (
-    <div className="border-amber-500 border p-5">
+    <div className="border-amber-500 border p-7">
     {!editing ? (
         <div>
         <p>{bio || "No bio yet."}</p>
-        <div className="flex gap-2 mt-2">
+        <div className="flex gap-2 mt-7 w-10">
             <button
             onClick={() => setEditing(true)}
-            className="bg-amber-400 px-3 py-1 rounded text-sm"
+            className="bg-amber-400 px-3 py-1 rounded text-xs"
             >
             Edit
             </button>
             {bio && (
             <button
                 onClick={deleteBio}
-                className="bg-red-400 px-3 py-1 rounded text-sm"
+                className="bg-red-400 px-3 py-1 rounded text-xs"
             >
                 Delete
             </button>
