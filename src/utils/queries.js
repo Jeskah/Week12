@@ -49,7 +49,7 @@ export async function getUserByClerkId(clerkId) {
     .from('users')
     .select('*')
     .eq('clerk_id', clerkId)
-    .single()
+    .maybeSingle()
 
   if (error) {
     console.error('Error fetching user:', error)
