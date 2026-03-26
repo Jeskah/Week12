@@ -3,14 +3,12 @@ import { ClerkProvider } from '@clerk/nextjs'
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 
-
 export default async function RootLayout({ children }) {
-    
   return (
     <html lang="en">
       <body className="flex flex-row">
         <ClerkProvider>
-          <Navbar />
+          <Navbar/>
             <div className="w-full flex flex-col">
             <Header/>
           {children}
@@ -18,6 +16,5 @@ export default async function RootLayout({ children }) {
         </ClerkProvider>
       </body>
     </html>
-    
   );
 }
