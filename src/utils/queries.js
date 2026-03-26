@@ -1,10 +1,10 @@
-import pool from "@/utils/db/db"
-import { createClient } from '@supabase/supabase-js'
+import pool from "@/utils/db/db";
+import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+);
 
 export async function getMeals() {
   const result = await pool.query(`
@@ -44,6 +44,17 @@ export async function getMatchingMeals(ingredientIds) {
   return result.rows;
 }
 
+export async function search(query) {
+  const result = await pool.query(
+    `SELECT id, name, 'meal' AS type FROM meals WHERE name ILIKE $1
+     UNION ALL
+     SELECT id, name, 'ingredient' AS type FROM ingredients WHERE name ILIKE $1
+     ORDER BY name
+     LIMIT 10`,
+    [`%${query}%`],
+  );
+  return result.rows;
+}
 export async function getUserByClerkId(clerkId) {
   const { data, error } = await supabase
     .from('users')
@@ -52,10 +63,9 @@ export async function getUserByClerkId(clerkId) {
     .maybeSingle()
 
   if (error) {
-    console.error('Error fetching user:', error)
-    return null
+    console.error("Error fetching user:", error);
+    return null;
   }
 
-  return data
+  return data;
 }
-
