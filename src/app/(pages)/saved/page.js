@@ -1,7 +1,8 @@
 import pool from "@/utils/db/db"
 
 export default async function SavedPage () {
-    //re-add img_url 
+    //re-add img_url
+    //add user auth 
 
     const saves = (await pool.query(`
         SELECT meals.id, meals.name, meals.description, meals.difficulty
@@ -12,7 +13,7 @@ export default async function SavedPage () {
         WHERE user_saves.user_id = $1`, [1])).rows
         
     return (
-        <div className="bg-black text-white px-10 pt-24">
+        <div className="bg-white text-black px-10 pt-24">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-xl sm:text-2xl font-semibold mb-6">Saved</h2>
         

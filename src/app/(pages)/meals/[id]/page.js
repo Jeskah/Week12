@@ -1,6 +1,7 @@
 import pool from "@/utils/db/db";
 import Link from "next/link";
 import Image from "next/image";
+import SaveButton from "@/app/components/SaveButton";
 
 export default async function MealDetail({ params }) {
     const { id } = await params;
@@ -71,8 +72,9 @@ export default async function MealDetail({ params }) {
 
 <div
     style={{
+    position: "relative",
     background: "#111",
-    padding: "25px",
+    padding: "25px 25px 50px 25px",
     borderRadius: "16px",
     border: "1px solid #222",
     boxShadow: "0 4px 20px rgba(0,0,0,0.4)"
@@ -113,6 +115,20 @@ export default async function MealDetail({ params }) {
     ) : (
     <p style={{ color: "#888" }}>No ingredients listed</p>
 )}
+
+ <div
+    style={{
+        position: "absolute",
+        bottom: "15px",
+        right: "15px",
+        background: "#1a1a1a",
+        padding: "8px",
+        borderRadius: "50%",
+        border: "1px solid #333"
+    }}
+>
+            <SaveButton mealId={meal.id} />
+          </div>
 
 </div>
 </div>
