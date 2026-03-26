@@ -1,8 +1,6 @@
 import pool from "@/utils/db/db"
-import userConnect from "@/utils/userConnect"
 
 export default async function SavedPage () {
-    // const user = await userConnect()
     //re-add img_url 
 
     const saves = (await pool.query(`
