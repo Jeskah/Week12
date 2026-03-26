@@ -57,10 +57,10 @@ export async function search(query) {
 }
 export async function getUserByClerkId(clerkId) {
   const { data, error } = await supabase
-    .from("users")
-    .select("*")
-    .eq("clerk_id", clerkId)
-    .single();
+    .from('users')
+    .select('*')
+    .eq('clerk_id', clerkId)
+    .maybeSingle()
 
   if (error) {
     console.error("Error fetching user:", error);

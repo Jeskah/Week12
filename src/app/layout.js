@@ -6,7 +6,7 @@ import Header from "./components/Header";
 export default async function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="flex flex-row">
+      <body className="flex flex-row min-h-screen">
         <ClerkProvider>
           <Navbar />
           <div className="w-full flex flex-col">
