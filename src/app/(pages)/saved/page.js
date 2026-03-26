@@ -1,7 +1,8 @@
 import pool from "@/utils/db/db"
 
 export default async function SavedPage () {
-    //re-add img_url 
+    //re-add img_url
+    //add user auth 
 
     const saves = (await pool.query(`
         SELECT meals.id, meals.name, meals.description, meals.difficulty
